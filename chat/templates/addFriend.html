@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block title %}SimpleChat | {{friend_name}}{% endblock %}
+
+{% block lateralMenu %}
+{% include 'chat_lateralMenu.html' %}
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Add Friend">
+</form>
+
+{% for message in messages %}
+    <p>{{message}}</p>
+{% endfor %}
+
+{% for friend_request in friend_requests %}
+    <p>
+        {{friend_request.from_user|title}} wants to be your friend
+        <a href="{% url 'accept friend request' friend_request.id %}"><button>Accept</button></a>
+        <a href="{% url 'deny friend request' friend_request.id 1 %}"><button>Deny</button></a>
+    </p>
+{% endfor %}
+
+{% endblock %}

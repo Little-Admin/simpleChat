@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block script %}
+{% load static %}
+<script src="{% static 'js/account_settings.js' %}"></script>
+{% endblock %}
+
+{% block lateralMenu %}
+    <button onclick="location.href='{% url 'Logout' %}'" type="button">LOGOUT</button>
+
+    <!--May have info(username, email, password)    Button to show or hide info
+        DELETE ACCOUNT
+    -->
+
+    <button onclick="location.href='{% url 'chat_index' %}'" type="button">DELETE ACCOUNT</button>
+{% endblock %}
+
+{% block content %}
+    <h1>INFO</h1>
+    <h1>Welcome {{username}}</h1>
+    <p>Last login {{last_login}}</p>
+        
+        
+    <p>User Name : {{username}}    <button class="activateFormButton">EDIT</button></p>
+    <p>Email : {{useremail}}    <button class="activateFormButton">EDIT</button></p>
+    <p>Password<button class="activateFormButton">Change Password</button></p>
+
+    {% if messages %}
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+{% block modal %}
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+<div class="modal_outer">
+    <div class="modal_middle">
+        <div class="form_modal">
+            <form method="POST" id="usernameForm">
+                {% csrf_token %}
+                {{usernameForm.as_p}}
+                
+                <input type="hidden" id="usernameForm_visibility" name='usernameForm_visibility' value="{{usernameForm_visibility}}">
+                <input type="hidden" name='formName' value="username">
+
+                {% if usernameForm.errors %}
+                        {{ usernameForm.erros }}
+                {% endif %}
+                
+                <input type="submit" class="submitButton" value="Change">
+            </form>
+            <form method="POST" id="emailForm">
+                {% csrf_token %}
+                {{emailForm.as_p}}
+
+                <input type="hidden" id="emailForm_visibility" name='emailForm_visibility' value="{{emailForm_visibility}}">
+                <input type="hidden" name='formName' value="email">
+                <input type="submit" class="submitButton" value="Change">
+            </form>
+            <form method="POST" id="passwordForm">
+                {% csrf_token %}
+                {{passwordForm.as_p}}
+                <input type="hidden" id="passwordForm_visibility" name='passwordForm_visibility' value="{{passwordForm_visibility}}">
+                <input type="hidden" name='formName' value="password">
+                <input type="submit" class="submitButton" value="Change">
+            </form>
+        </div>    
+    </div>
+</div>
+{% endblock %}

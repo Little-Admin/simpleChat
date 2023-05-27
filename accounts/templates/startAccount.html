@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block title %} {{redirect_to}} {% endblock %}
+
+{% block lateralMenu %}
+<ul>
+    <li>
+        <a href="{% url 'Login' %}">Login</a>
+    </li>
+    <li>
+        <a href="{% url 'Sign-Up' %}">Sign-Up</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<h1>{{action}}</h1>
+<form method="POST" class="accountForm">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="{{action}}" class="submitButton">
+</form>
+
+{% for message in messages %}
+    {{message}}
+{% endfor %}
+
+{% endblock %}
