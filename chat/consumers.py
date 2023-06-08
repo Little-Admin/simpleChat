@@ -50,4 +50,4 @@ class chatConsumer(AsyncWebsocketConsumer):
     def save_message(self, friends_room, username, message):
         user = User.objects.get(username = username)
 
-        #Message.objects.create(friends_room = friends_room, user = user, content = message)
+        Message.objects.create(friends_room = friends_room, user = user, content = message)
