@@ -1,15 +1,17 @@
 <h3>{{username}}</h3>
 <div id="utilityBar">
     {% load static %}
-    <a href="{% url 'addFriend' %}"><img src="{% static 'images/example-ico.png' %}" alt=""></a>
-    <a href=""><img src="{% static 'images/example-ico.png' %}" alt=""></a>
-    <a href="{% url 'settings' %}"><img src="{% static 'images/example-ico.png' %}" alt=""></a>
+    <a href="{% url 'addFriend' %}"><img src="{% static 'images/add-friend.png' %}" alt=""></a>
+    <a href="{% url 'settings' %}"><img src="{% static 'images/settings-ico.png' %}" alt=""></a>
+    <a href="{% url 'Logout' %}"><img src="{% static 'images/logout-ico.png' %}" alt=""></a>
 </div>
 
 {% if friends %}
+<div id="friends_list">
     <ul>
     {% for friend in friends %}
-        <li><a href="{% url 'chat_index' friend %}">{{friend}}</a></li>
+        <li><img class="friend-ico" src="{% static 'images/friend-ico.png' %}" alt=""><a href="{% url 'chat_index' friend %}">{{friend}}</a></li>
     {% endfor %}
     </ul>
+</div>
 {% endif %}

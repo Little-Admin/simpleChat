@@ -4,3 +4,96 @@
 {% block lateralMenu %}
 {% include 'chat_lateralMenu.html' %}
 {% endblock %}
+
+{% block content %}
+    {% if room_code %}
+    
+    <div
+      class="chat_messages_container"
+      id="id_chat_messages_container"
+    >
+    <ul id="messages_list">
+      {% for message in messages %}
+      <li>
+        {% if message.user == request.user %}
+          <p class="message_to">{{message.content}}</p><br>
+        {% else %}
+          <p class="message_from">{{message.content}}</p><br>
+      </li>
+        {% endif %}
+      {% endfor %}
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_to">Hello</p></li><br>
+      <li><p class="message_from">Hello</p></li><br>
+    </ul>
+
+    </div>
+    <div
+      class="chat__item__container"
+      id="id_chat_item_container"
+      style="font-size: 20px"
+    >
+    <br />
+      <input type="text" id="id_message_send_input" />
+      <button type="submit" id="id_message_send_button">Send Message</button>
+    </div>
+    <script>
+      document.getElementById('id_chat_messages_container').scrollTop = 999999999;
+
+      const chatSocket = new WebSocket("ws://" + window.location.host + '/ws/c/{{room_code}}');
+      chatSocket.onopen = function (e) {
+        console.log("The connection was setup successfully !");
+      };
+      chatSocket.onclose = function (e) {
+        console.log("Something unexpected happened !");
+      };
+      document.querySelector("#id_message_send_input").focus();
+      document.querySelector("#id_message_send_input").onkeyup = function (e) {
+        if (e.keyCode == 13) {
+          document.querySelector("#id_message_send_button").click();
+        }
+      };
+      document.getElementById('id_message_send_button').onclick = function (e) {
+        var messageInput = document.querySelector(
+          "#id_message_send_input"
+        ).value;
+        chatSocket.send(JSON.stringify({ friends_room : "{{room_code}}", message: messageInput, username : "{{request.user.username}}"}));
+      };
+      chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        //var div = document.createElement("div");
+        var ul = document.getElementById('messages_list');
+        var li = document.createElement("li");
+        var p_message = document.createElement("p");
+        p_message.innerText = data.message
+        if (data.username == "{{request.user.username}}"){
+          p_message.classList.add('message_to');
+        } else {
+          p_message.classList.add('message_from');
+        }
+        li.appendChild(p_message);
+        ul.append(document.createElement('BR'));
+        ul.appendChild(li);
+
+        document.querySelector("#id_message_send_input").value = "";
+        document.getElementById('id_chat_messages_container').scrollTop = 999999999;
+
+      };
+    </script>
+    {% endif %}
+    
+{% endblock %}

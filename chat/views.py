@@ -4,22 +4,32 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import AddFriendForm
-from .models import Friends, Friend_Request
+from .models import Friends, Friend_Request, Message
 
 # Create your views here.
 @login_required(login_url='Login')
-def chat(request, friend_name = False):
+def chat(request, friendName = False):
     friendsObj, __ = Friends.objects.get_or_create(user = request.user)
     friendsList = friendsObj.friends.all()
+    room_code = 0
+    messages = []
 
-    if friend_name:
-        pass    #   SELECT * FROM friends WHERE user, friend in (SELECT * FROM FRIENDS)
+    if friendName:
+        friendObj = User.objects.get(username = friendName)
+        ids = sorted([friendObj.id, request.user.id])
+        room_code = f"{ids[0]}_{ids[1]}"
+
+        # Get messages
+        messages = Message.objects.all().filter(friends_room = room_code)
     
     return render(request, 'chat.html', {
         'username' : request.user.username,
         'friends' : friendsList,
+        'friend_name' : friendName,
+        'room_code' : room_code,
+        'messages' : messages
     })
-
+    
 @login_required(login_url='Login')
 def add_friend(request):
     # Get friends requests
