@@ -15,11 +15,12 @@
     <ul id="messages_list">
       {% for message in messages %}
       <li>
+        {% load chat_tags %}
         {% if message.user == request.user %}
-          <p class="message_to">{{message.content}}</p><br>
+          <p class="message_to">{{message.content}} <br> <span class="message_to_date">{{ message.date | translate_date:request.user }}</span></p><br>
         {% else %}
-          <p class="message_from">{{message.content}}</p><br>
-      </li>
+          <p class="message_from">{{message.content}} <br> <span class="message_from_date">{{ message.date | translate_date:request.user }}</span> </p><br>
+        </li>
         {% endif %}
       {% endfor %}
     </ul>
@@ -58,7 +59,6 @@
       };
       chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        //var div = document.createElement("div");
         var ul = document.getElementById('messages_list');
         var li = document.createElement("li");
         var p_message = document.createElement("p");
