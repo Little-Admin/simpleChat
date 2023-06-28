@@ -9,8 +9,15 @@ body{
     background-image: url('background.jpg');
 }
 
+h1{
+    color: white;
+    vertical-align: middle;
+    font-size: 3.5rem;
+    line-height: 6px;
+}
+
 header{
-    background-color: aqua;
+    background-color: rgb(0, 112, 147);
     text-align: center;
     height: 100px;
     width: 85%;
@@ -25,6 +32,7 @@ header{
     left: 0;
     height: 100%;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.315);
 }
 
 .middle {
@@ -35,7 +43,7 @@ header{
 .inner {
   display: flex;
   justify-content: center;
-  background-color: rgb(0, 182, 182);
+  background-color: rgb(0, 85, 111);
   margin-left: auto;
   margin-right: auto;
   height: 80px;

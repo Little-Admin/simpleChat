@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import Sign_upForm, LoginForm, NewUsernameForm, NewEmailForm, NewPasswordForm
+from .forms import Sign_upForm, LoginForm, NewUsernameForm, NewEmailForm, NewPasswordForm, ChangeTimeZoneForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -59,11 +59,14 @@ def account_settings(request):
     usernameForm = NewUsernameForm()
     emailForm = NewEmailForm()
     passwordForm = NewPasswordForm()
+    timeZoneForm = ChangeTimeZoneForm()
 
     usernameForm_visibility = False
     emailForm_visibility = False
     passwordForm_visibility = False
-    
+
+    timeZoneForm_selected = request.user.timeZone.get_or_create()[0].timeZone
+
     if request.method == 'POST':
         match request.POST['formName']:
             case 'username':
@@ -101,6 +104,13 @@ def account_settings(request):
                 else:
                     passwordForm_visibility = True
 
+            case 'timeZone':
+                timeZoneForm = ChangeTimeZoneForm(request.POST)
+                if timeZoneForm.is_valid():
+                    new_userTimeZone = timeZoneForm.cleaned_data['timeZone']
+                    timeZoneForm.save(request.user.id)
+                    messages.success(request, f'TimeZone changed to : {new_userTimeZone}')
+                    
     return render(request, 'account_settings.html', {
         'username' : username,
         'useremail' : useremail,
@@ -108,7 +118,9 @@ def account_settings(request):
         'usernameForm' : usernameForm,
         'emailForm' : emailForm,
         'passwordForm' : passwordForm,
+        'timeZoneForm' : timeZoneForm,
         'usernameForm_visibility' : usernameForm_visibility,
         'emailForm_visibility' : emailForm_visibility,
         'passwordForm_visibility' : passwordForm_visibility,
+        'timeZoneForm_selected' : timeZoneForm_selected,
     })

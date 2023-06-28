@@ -1,21 +1,25 @@
-from typing import Any, Dict, Mapping, Optional, Type, Union
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from accounts.models import timeZone, userTimeZone
 
 class Sign_upForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={
-        'placeholder' : 'email'
+        'placeholder' : 'email',
+        'class' : 'inputW'
     }))
     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
-        'placeholder' : 'user name'
+        'placeholder' : 'user name',
+        'class' : 'inputW'
     }))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder' : 'password'
+        'placeholder' : 'password',
+        'class' : 'inputW'
     }))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder' : 'password again'
+        'placeholder' : 'password again',
+        'class' : 'inputW'
     }))
     
     class Meta:
@@ -27,14 +31,19 @@ class Sign_upForm(UserCreationForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
-        'placeholder' : 'user name'
+        'placeholder' : 'user name',
+        'class' : 'inputW'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder' : 'password'
+        'placeholder' : 'password',
+        'class' : 'inputW'
     }))
 
 class NewUsernameForm(forms.Form):
-    new_username = forms.CharField(max_length=30)
+    new_username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
+        'placeholder' : 'username',
+        'class' : 'inputW'
+    }))
 
     class Meta:
         model = User
@@ -53,7 +62,8 @@ class NewUsernameForm(forms.Form):
 
 class NewEmailForm(forms.Form):
     new_email = forms.EmailField(widget=forms.TextInput(attrs={
-        'placeholder' : 'email'
+        'placeholder' : 'email',
+        'class' : 'inputW'
     }))
 
     def clean(self):
@@ -69,11 +79,13 @@ class NewEmailForm(forms.Form):
         user.save()
 
 class NewPasswordForm(forms.Form):
-    new_password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder' : 'new password'
+    new_password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={
+        'placeholder' : 'new password',
+        'class' : 'inputW'
     }))
     new_passwordagain = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder' : 'password again',
+        'class' : 'inputW'
     }))
 
     def __init__(self, *args, **kwargs):
@@ -94,3 +106,22 @@ class NewPasswordForm(forms.Form):
         user = User.objects.get(id = id)
         user.set_password(self.cleaned_data['new_password'])
         user.save()
+
+class ChangeTimeZoneForm(forms.Form):
+    #Get Choices
+    timeZonesChoices = []
+    timeZoneObjs = timeZone.objects.all()
+    for timeZone in timeZoneObjs:
+        timeZonesChoices.append((timeZone, timeZone))
+
+    timeZone = forms.ChoiceField(choices=timeZonesChoices, widget=forms.Select(
+        attrs={
+            'id' : 'timeZoneSelect'
+        }
+    ))
+
+    def save(self, id):
+        user = User.objects.get(id = id)
+        usertz = user.timeZone.get()
+        usertz.timeZone = self.cleaned_data['timeZone']
+        usertz.save()

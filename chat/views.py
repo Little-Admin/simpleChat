@@ -21,6 +21,9 @@ def chat(request, friendName = False):
 
         # Get messages
         messages = Message.objects.all().filter(friends_room = room_code)
+
+    else :
+        friendName = ''
     
     return render(request, 'chat.html', {
         'username' : request.user.username,
@@ -67,14 +70,17 @@ def send_friend_request(request, FriendID):
     from_user = request.user
     to_user = User.objects.get(id = FriendID)
 
+    if from_user == to_user:
+        messages.error(request, 'You cant send a friend request to yourself')
+        return redirect('addFriend')
+
     friend_request, created = Friend_Request.objects.get_or_create(
     from_user = from_user, to_user = to_user)
     if created:
         messages.success(request, 'Friend request have been sent')
-        return redirect('addFriend')
     else:
         messages.error(request, 'You already have sent a friend request')
-        return redirect('addFriend')
+    return redirect('addFriend')
     
 @login_required(login_url = 'Login')
 def accept_friend_request(request, requestID, deny = False):

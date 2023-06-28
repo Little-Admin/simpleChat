@@ -6,24 +6,20 @@
 {% endblock %}
 
 {% block lateralMenu %}
-    <button onclick="location.href='{% url 'Logout' %}'" type="button">LOGOUT</button>
-
-    <!--May have info(username, email, password)    Button to show or hide info
-        DELETE ACCOUNT
-    -->
-
-    <button onclick="location.href='{% url 'chat_index' %}'" type="button">DELETE ACCOUNT</button>
+    {% include 'chat_lateralMenu.html' %}
+    <button class="lateralButtons" onclick="location.href='{% url 'Logout' %}'" type="button">LOGOUT</button><br>
+    <button class="lateralButtons" onclick="location.href='{% url 'chat_index' %}'" type="button">DELETE ACCOUNT</button>
 {% endblock %}
 
 {% block content %}
     <h1>INFO</h1>
-    <h1>Welcome {{username}}</h1>
-    <p>Last login {{last_login}}</p>
+    <spam id="last-loginSettings">Last login {{last_login}}</spam>
         
         
-    <p>User Name : {{username}}    <button class="activateFormButton">EDIT</button></p>
-    <p>Email : {{useremail}}    <button class="activateFormButton">EDIT</button></p>
-    <p>Password<button class="activateFormButton">Change Password</button></p>
+    <p class="settings-option">User Name : {{username}}    <button class="activateFormButton styled-button">EDIT</button></p>
+    <p class="settings-option">Email : {{useremail}}    <button class="activateFormButton styled-button">EDIT</button></p>
+    <p class="settings-option">Password <button class="activateFormButton styled-button">Change Password</button></p>
+    <p class="settings-option">TimeZone <button class="activateFormButton styled-button">EDIT</button></p>
 
     {% if messages %}
         {% for message in messages %}
@@ -69,6 +65,13 @@
                 {{passwordForm.as_p}}
                 <input type="hidden" id="passwordForm_visibility" name='passwordForm_visibility' value="{{passwordForm_visibility}}">
                 <input type="hidden" name='formName' value="password">
+                <input type="submit" class="submitButton" value="Change">
+            </form>
+            <form method="POST" id="timeZoneForm">
+                {% csrf_token %}
+                {{timeZoneForm.as_p}}
+                <input type="hidden" name='formName' value="timeZone">
+                <input type="hidden" id="timeZoneForm_selected" value="{{timeZoneForm_selected}}">
                 <input type="submit" class="submitButton" value="Change">
             </form>
         </div>    

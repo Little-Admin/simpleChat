@@ -9,6 +9,8 @@ var emailForm_visibility = document.getElementById('emailForm_visibility').value
 var passwordForm_visibility = document.getElementById('passwordForm_visibility').value;
 var visibilityForms = [usernameForm_visibility, emailForm_visibility, passwordForm_visibility];
 
+var timeZoneForm_selectedValue = document.getElementById('timeZoneForm_selected').value;
+
 // Buttons
 var buttonsList = document.getElementsByClassName('activateFormButton');
 buttonsList = [].slice.call(buttonsList);
@@ -17,6 +19,7 @@ function resetForms() {
     FormsList[0].style.display = 'none';
     FormsList[1].style.display = 'none';
     FormsList[2].style.display = 'none';
+    FormsList[3].style.display = 'none';
 }
 
 modal_outer.onclick = function(event){
@@ -45,6 +48,14 @@ buttonsList[2].addEventListener('click', function(){
     resetForms();
     showForm(2);
 });
+
+buttonsList[3].addEventListener('click', function(){
+    resetForms();
+    showForm(3);
+});
+
+// Change Defaults Inputs Values
+document.getElementById('timeZoneSelect').value = timeZoneForm_selectedValue;
 
 window.onload = function(e){    
     // Show Current Form

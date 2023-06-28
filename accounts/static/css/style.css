@@ -8,7 +8,25 @@ html, body{
 
 h1{
     text-align: center;
+    font-size: 2.2rem;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h3{
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+.styled-button{
+    background-color: black;
+    border: 1px solid cyan;
+    border-radius: 10px;
+    color: white;
+}
+
+.styled-button:hover{
+    background-color: rgb(14, 14, 14);
+    border: 2px solid cyan;
 }
 
 #content{
@@ -31,6 +49,7 @@ label{
     font-size: 25px;
 }
 
+/* forms */
 input{
     display: block;
     height: 30px;
@@ -46,13 +65,23 @@ input{
 
 .submitButton{
     max-width: 280px;
-    background-color: aqua;
+    background-color: rgb(20, 118, 148);
     transition: all 300ms;
 }
 
 .submitButton:hover{
     box-shadow: -3px 10px 5px black;
-    background-color: aquamarine;
+    background-color: rgb(73, 161, 173);
+}
+
+.inputW{
+    color: white;
+    background-color: black;
+}
+
+.inputW:focus{
+    background-color: rgb(19, 19, 19);
+    border: 2px solid cyan;
 }
 
 /*  LateralMenu   */
@@ -61,7 +90,8 @@ input{
     position: relative;
     height: calc(100% - 20px);
     width: 25vw;
-    background-color: rgb(65, 173, 185);
+    min-width: 200px;
+    background-color: rgb(0, 85, 111);
     margin: 0;
     padding: 20px 0 0 20px; /*top: 20px, rigth: 0px, bottom: 0px y left:20px*/
 }
@@ -70,6 +100,20 @@ input{
     display: block;
     font-style: italic;
     text-align: center;
+}
+
+#lateralMenu #start-options li{
+    display: block;
+    margin: 20px auto;
+}
+
+#lateralMenu #start-options li:first-of-type{
+    margin-top: 60px;
+}
+
+#lateralMenu #start-options a{
+    color: white;
+    font-size: 1.2rem;
 }
 
 #lateralMenu #friends_list{
@@ -81,7 +125,25 @@ input{
     overflow-y: scroll;
 }
 
-#lateralMenu li{
+#lateralMenu #friends_list button{
+    line-height: 100px;
+    list-style: none;
+    height: 80px;
+    width: 70%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: rgb(0, 104, 122);
+    transition: all 300ms;
+}
+
+#lateralMenu #friends_list button:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    background-color: rgb(49, 112, 119);
+}
+
+#lateralMenu #friends_list li{
     line-height: 100px;
     list-style: none;
     height: 80px;
@@ -105,10 +167,10 @@ input{
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 10px 3px 10px 10px;
     border: 1px solid black;
     border-radius: 5px;
-    background-color: rgb(54, 145, 155);
+    background-color: rgb(0, 104, 122);
 }
 
 #utilityBar img{
@@ -116,6 +178,45 @@ input{
 }
 
 /* Account Settings */
+#last-loginSettings{
+    display: block;
+    margin-top: 70px;
+    font-size: 1rem;
+}
+
+.settings-option{
+    padding: 2vh;
+    margin: 30px 0;
+    font-size: 1.4rem;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.activateFormButton{
+    float: right;
+    width: 20vw;
+    padding: .5vh 1vh;    
+    font-size: 1rem;
+}
+
+#timeZoneForm select{
+    display: block;
+    margin: 0 auto;
+    color: white;
+    background-color: black;
+}
+
+.lateralButtons{
+    display: block;
+    height: 40px;
+    width: 50%;
+    border-radius: 10px;
+    color: white;
+    background-color: black;
+}
+
+.lateralButtons:hover{
+    background-color: red;
+}
 
 .modal_outer{
     display: table;
@@ -147,7 +248,7 @@ input{
     margin: 0 auto;
     border: 4px solid white;
     border-radius: 10px;
-    background-color: aqua;
+    background-color: rgb(0, 85, 111);
 }
 
 .form_modal form{
@@ -155,7 +256,16 @@ input{
 }
 
 .form_modal .submitButton{
-    background-color: rgb(169, 241, 241);
+    background-color: rgb(40, 159, 175);
+}
+
+/* AddFriend */
+.addFriend {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
 }
 
 /* Chat */
@@ -205,7 +315,7 @@ input{
 
 .chat__item__container{
     display: flex;
-    position:static;
+    justify-content: space-between;
 }
 
 .chat__item__container #id_message_send_input{
@@ -217,11 +327,12 @@ input{
 }
 
 .chat__item__container #id_message_send_button{
-    padding: 15px;
     height: 50%;
-    width: 15%;
+    width: 8em;
+    padding: 1em 0;
     transform: translateY(50%);
-    color: white;
-    border-radius: 5px;
     background-color: rgb(66, 66, 66);
+    border-radius: 5px;
+    color: white;
+    font-size: .9rem;
 }

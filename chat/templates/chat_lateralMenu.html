@@ -1,8 +1,20 @@
 <h3>{{username}}</h3>
 <div id="utilityBar">
     {% load static %}
-    <a href="{% url 'addFriend' %}"><img src="{% static 'images/add-friend.png' %}" alt=""></a>
-    <a href="{% url 'settings' %}"><img src="{% static 'images/settings-ico.png' %}" alt=""></a>
+
+    {% url 'addFriend' as url_addFriend %}
+    {% url 'settings' as url_settings %}    
+
+    {% if request.path == url_settings %}
+        <a href="{% url 'chat_index' %}"><img src="{% static 'images/back-ico.png' %}" alt=""></a>
+        <a href="{% url 'addFriend' %}"><img src="{% static 'images/add-friend.png' %}" alt=""></a>
+    {% elif request.path == url_addFriend %}
+        <a href="{% url 'chat_index' %}"><img src="{% static 'images/back-ico.png' %}" alt=""></a>
+        <a href="{% url 'settings' %}"><img src="{% static 'images/settings-ico.png' %}" alt=""></a>
+    {% else%}
+        <a href="{% url 'addFriend' %}"><img src="{% static 'images/add-friend.png' %}" alt=""></a>
+        <a href="{% url 'settings' %}"><img src="{% static 'images/settings-ico.png' %}" alt=""></a>
+    {% endif %}
     <a href="{% url 'Logout' %}"><img src="{% static 'images/logout-ico.png' %}" alt=""></a>
 </div>
 
@@ -10,7 +22,7 @@
 <div id="friends_list">
     <ul>
     {% for friend in friends %}
-        <li><img class="friend-ico" src="{% static 'images/friend-ico.png' %}" alt=""><a href="{% url 'chat_index' friend %}">{{friend}}</a></li>
+        <button onclick="location.href='{% url 'chat_index' friend %}'" type="button"><img class="friend-ico" src="{% static 'images/friend-ico.png' %}" alt="">{{friend}}</button>
     {% endfor %}
     </ul>
 </div>
