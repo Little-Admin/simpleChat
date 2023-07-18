@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import Sign_upForm, LoginForm, NewUsernameForm, NewEmailForm, NewPasswordForm, ChangeTimeZoneForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView
 from django.contrib import messages
 from calendar import month_name
 
@@ -42,10 +43,6 @@ def account_login(request):
         'redirect_to' : 'Sign-Up',
         'form' : form
     })
-
-def account_logout(request):
-    logout(request)
-    return redirect('index')
 
 def account_settings(request):
     # Basic info
@@ -124,3 +121,18 @@ def account_settings(request):
         'passwordForm_visibility' : passwordForm_visibility,
         'timeZoneForm_selected' : timeZoneForm_selected,
     })
+
+
+def account_logout(request):
+    logout(request)
+    return redirect('index')
+
+class passwordResetView(PasswordResetView):
+    template_name = 'password_reset.html'
+    #success_url = reverse_lazy('accounts:password-reset-done')
+    #subject_template_name = 'accounts/emails/password-reset-subject.txt'
+    #email_template_name = 'accounts/emails/password-reset-email.html'
+    success_url = '/account/reset_password_done/'
+
+class passwordResetDoneView(PasswordResetDoneView):
+    pass

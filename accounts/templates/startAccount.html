@@ -20,6 +20,10 @@
     <input type="submit" value="{{action}}" class="submitButton">
 </form>
 
+{% if action == 'Login' %}
+    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+{% endif %}
+
 {% for message in messages %}
     {{message}}
 {% endfor %}

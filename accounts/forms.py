@@ -114,6 +114,7 @@ class ChangeTimeZoneForm(forms.Form):
     for timeZone in timeZoneObjs:
         timeZonesChoices.append((timeZone, timeZone))
 
+
     timeZone = forms.ChoiceField(choices=timeZonesChoices, widget=forms.Select(
         attrs={
             'id' : 'timeZoneSelect'
