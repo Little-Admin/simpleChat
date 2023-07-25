@@ -8,7 +8,7 @@ urlpatterns = [
     path('logout/', views.account_logout, name='Logout'),
     path('settings/', views.account_settings, name='settings'),
     path('reset_password/', views.passwordResetView.as_view(), name='password_reset'),
-    path('reset_password_done/', auth_views.PasswordResetDoneView.as_view(), name='passwordResetDone'),
-    path('reset_password_confirm/<str:uidb64>/<str:token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset_password_done/', auth_views.PasswordResetDoneView.as_view(template_name = "password_reset_done.html"), name='password_reset_done'),
+    path('reset_password_confirm/<str:uidb64>/<str:token>', auth_views.PasswordResetConfirmView.as_view(template_name = "password_reset_confirm.html"), name='password_reset_confirm'),
     path('reset_password_complete', auth_views.PasswordResetCompleteView, name='password_reset_complete')
 ]

@@ -17,11 +17,20 @@ h3{
     font-size: 1.2rem;
 }
 
+.cancel-button{
+    display: block;
+    width: 20%;
+    padding: .2em;
+    margin: 25px auto;
+}
+
 .styled-button{
+    padding: .5em;
     background-color: black;
     border: 1px solid cyan;
     border-radius: 10px;
     color: white;
+    text-align: center;
 }
 
 .styled-button:hover{
@@ -74,7 +83,7 @@ input{
     background-color: rgb(73, 161, 173);
 }
 
-.inputW{
+.inputW, .passwordResetForm input[type = "email"], .passwordResetForm input[type = "password"]{
     color: white;
     background-color: black;
 }
@@ -175,6 +184,11 @@ input{
 
 #utilityBar img{
     height: 3em;
+}
+
+/* Password Reset */
+.passwordResetForm{
+    margin-top: 230px;
 }
 
 /* Account Settings */

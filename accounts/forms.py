@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.views import PasswordResetDoneView
 from django.core.exceptions import ValidationError
 from accounts.models import timeZone, userTimeZone
 
@@ -38,6 +39,9 @@ class LoginForm(forms.Form):
         'placeholder' : 'password',
         'class' : 'inputW'
     }))
+
+
+# Settings
 
 class NewUsernameForm(forms.Form):
     new_username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
