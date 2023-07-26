@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from django.contrib.auth.models import User
-from django.contrib.auth.views import PasswordResetDoneView
 from django.core.exceptions import ValidationError
 from accounts.models import timeZone, userTimeZone
 
@@ -82,34 +81,11 @@ class NewEmailForm(forms.Form):
         user.email = self.cleaned_data.get('new_email')
         user.save()
 
-class NewPasswordForm(forms.Form):
-    new_password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={
-        'placeholder' : 'new password',
-        'class' : 'inputW'
-    }))
-    new_passwordagain = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder' : 'password again',
-        'class' : 'inputW'
-    }))
-
-    def __init__(self, *args, **kwargs):
-        super(NewPasswordForm, self).__init__(*args, **kwargs)
-        self.fields['new_password'].label = 'Password'
-        self.fields['new_passwordagain'].label = 'Password (again)'
-
-    def clean(self):
-        new_password = self.cleaned_data['new_password']
-        new_passwordagain = self.cleaned_data['new_passwordagain']
-
-        if new_password != new_passwordagain:
-            raise ValidationError('Password does not match')
-
-        return self.cleaned_data
-    
-    def save(self, id):
-        user = User.objects.get(id = id)
-        user.set_password(self.cleaned_data['new_password'])
-        user.save()
+class ChangePasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(label= ("New password"),
+                                    widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label= ("New password confirmation"),
+                                    widget=forms.PasswordInput)
 
 class ChangeTimeZoneForm(forms.Form):
     #Get Choices

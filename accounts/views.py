@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import Sign_upForm, LoginForm, NewUsernameForm, NewEmailForm, NewPasswordForm, ChangeTimeZoneForm
+from .forms import Sign_upForm, LoginForm, NewUsernameForm, NewEmailForm, ChangePasswordForm, ChangeTimeZoneForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import views as authviews
@@ -55,7 +55,7 @@ def account_settings(request):
     # Forms
     usernameForm = NewUsernameForm()
     emailForm = NewEmailForm()
-    passwordForm = NewPasswordForm()
+    passwordForm = ChangePasswordForm(request.user)
     timeZoneForm = ChangeTimeZoneForm()
 
     usernameForm_visibility = False
@@ -87,13 +87,13 @@ def account_settings(request):
                     emailForm_visibility = True
 
             case 'password':
-                passwordForm = NewPasswordForm(request.POST)
+                passwordForm = ChangePasswordForm(request.user, request.POST)
                 if passwordForm.is_valid():
                     passwordForm_visibility = False
-                    new_password = passwordForm.cleaned_data['new_password']
-                    passwordForm.save(request.user.id)
+                    new_password = passwordForm.clean_new_password2()
+                    passwordForm.save()
 
-                    #Relogin
+                    # Relogin
                     user = authenticate(username = request.user.username, password = new_password)
                     login(request, user)
 
